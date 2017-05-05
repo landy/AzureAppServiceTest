@@ -14,8 +14,7 @@ let main argv =
     // routes
     let webpart =
         choose [
-            path "/test" >=> OK "Look ma! Routing on sub-app on localhost"
-            path "/" >=> OK "Hello from Suave on IIS"
+            path "/" >=> OK "Ha! F# web right from GitHub"
         ]
 
     // start service server
