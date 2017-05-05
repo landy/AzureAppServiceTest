@@ -1,0 +1,11 @@
+FRAMEWORK: NET461
+NUGET
+  remote: http://www.nuget.org/api/v2
+    FAKE (4.61.1)
+    FSharp.Core (4.1.17)
+      System.ValueTuple (>= 4.3)
+    Suave (2.1)
+      FSharp.Core (>= 4.0.0.1)
+    Suave.IIS (2.1)
+      Suave (>= 2.0.3)
+    System.ValueTuple (4.3)
