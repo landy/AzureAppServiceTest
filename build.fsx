@@ -26,7 +26,7 @@ let consoleConfig:ProjectConfig = {
                 DebugTasks = []
         }
         Deploy = {
-                    Tasks = [FileSystemCopy("../wwwroot")]
+                    Tasks = []
         }
     }
 
@@ -43,6 +43,11 @@ Target "Watch" (fun _ ->
 
 Target "Deploy" (fun _ ->
     Konfig.Runner.Default.deploy configs
+    let buildDir = "build/AzureAppServiceTest/"   
+    let deployDir = "deploy/"
+    !! (buildDir + "/**/*.*")
+        -- "*.zip"
+        |> Zip buildDir (deployDir + "AzureAppServiceTest.zip")
 )
 
 // start build
