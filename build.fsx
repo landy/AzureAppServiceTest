@@ -43,8 +43,9 @@ Target "Watch" (fun _ ->
 
 Target "Deploy" (fun _ ->
     Konfig.Runner.Default.deploy configs
-    let buildDir = "build/AzureAppServiceTest/"   
     let deployDir = "deploy/"
+    System.IO.Directory.CreateDirectory deployDir |> ignore
+    let buildDir = "build/AzureAppServiceTest/"   
     !! (buildDir + "/**/*.*")
         -- "*.zip"
         |> Zip buildDir (deployDir + "AzureAppServiceTest.zip")
