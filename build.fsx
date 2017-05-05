@@ -26,7 +26,7 @@ let consoleConfig:ProjectConfig = {
                 DebugTasks = []
         }
         Deploy = {
-                    Tasks = [FileSystemCopy("site/wwwroot")]
+                    Tasks = [FileSystemCopy("../wwwroot")]
         }
     }
 
