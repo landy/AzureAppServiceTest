@@ -14,6 +14,7 @@ let main argv =
     // routes
     let webpart =
         choose [
+            path "/test2" >=> OK "Ha! F# web routing run"
             path "/test" >=> OK "Ha! F# web routing run"
             path "/" >=> OK "Ha! F# web right from GitHub"
         ]
