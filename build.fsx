@@ -45,11 +45,5 @@ Target "Deploy" (fun _ ->
     Konfig.Runner.Default.deploy configs
 )
 
-Target "ClearDeploy" (fun _ ->
-    CleanDir "../wwwroot"
-)
-
-"ClearDeploy" ==> "Deploy"
-
 // start build
 RunTargetOrDefault "Build"
