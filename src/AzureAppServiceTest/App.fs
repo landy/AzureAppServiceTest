@@ -16,7 +16,7 @@ let main argv =
         choose [
             path "/test2" >=> OK "Ha! F# web routing run"
             path "/test" >=> OK "Ha! F# web routing run"
-            path "/" >=> OK "Ha! F# web right from GitHub with autoredeploy"
+            path "/" >=> OK "Ha! F# web right from GitHub with autoredeploy and AspNetCoreModule"
         ]
 
     // start service server
