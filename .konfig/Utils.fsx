@@ -15,3 +15,6 @@ let runWithRepeat times fn =
             traceImportant <| sprintf "Could not finish task within %i tries. Making last try now..." times
             fn()
     repeat times
+
+module Default =
+    let runWithRepeat fn = runWithRepeat 100 fn
