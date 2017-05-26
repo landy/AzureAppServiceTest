@@ -37,6 +37,8 @@ let runDeploy rootDir (cfg:ProjectConfig) = function
         )
     | CopyTo(destination) -> Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> copyBuildTo rootDir cfg)
     | CopyToIIS(destination, appOfflineSrc) ->
-        Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> createAppOffline rootDir appOfflineSrc)
-        Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> copyBuildTo rootDir cfg)
-        Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> removeAppOffline)
+        try
+            Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> createAppOffline rootDir appOfflineSrc)
+            Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> copyBuildTo rootDir cfg)
+        finally
+            Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> removeAppOffline)
