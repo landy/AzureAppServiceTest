@@ -52,7 +52,9 @@ let private build rootDir configs buildF tasksF =
         cfg |> buildF rootDir
         cfg |> tasksF rootDir
     }
-    configs |> List.map run |> Async.Parallel |> Async.RunSynchronously |> ignore
+    let par, seq = configs |> List.partition (fun x -> x.Build.SupportsParallelBuild)
+    seq |> List.iter (run >> Async.RunSynchronously)
+    par |> List.map run |> Async.Parallel |> Async.RunSynchronously |> ignore
 
 let buildRelease rootDir configs = build rootDir configs Builder.buildRelease runReleaseTasks 
     

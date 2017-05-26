@@ -17,16 +17,17 @@ let consoleConfig:ProjectConfig = {
         Watch = { 
                 Statics = [ByExtension(".txt")]
                 Dynamics = [ByExtension(".fs")]
-                NotificationChannel = NotificationChannel.WebSocket(Port.Parse("8183"))
+                NotificationChannel = Some (NotificationChannel.WebSocket(Port.Parse("8183")))
         }
         Build = { 
+                SupportsParallelBuild = true
                 SharedTasks = []
                 OutputDirectory = "build/AzureAppServiceTest"
                 ReleaseTasks = []
                 DebugTasks = []
         }
         Deploy = {
-                    Tasks = []
+                    Tasks = [CopyToIIS("../wwwroot","App_Offline.htm")]
         }
     }
 
@@ -43,12 +44,6 @@ Target "Watch" (fun _ ->
 
 Target "Deploy" (fun _ ->
     Konfig.Runner.Default.deploy configs
-    let deployDir = "deploy/"
-    System.IO.Directory.CreateDirectory deployDir |> ignore
-    let buildDir = "build/AzureAppServiceTest/"   
-    !! (buildDir + "/**/*.*")
-        -- "*.zip"
-        |> Zip buildDir (deployDir + "AzureAppServiceTest.zip")
 )
 
 // start build

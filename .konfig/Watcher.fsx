@@ -51,7 +51,8 @@ let private startSocketWeb (refreshEvent:Event<_>) port =
     startWebServerAsync serverConfig app |> snd |> Async.Start
 
 let private startNotifications refreshEvent = function
-    | NotificationChannel.WebSocket(port) -> port |> startSocketWeb refreshEvent
+    | Some (NotificationChannel.WebSocket(port)) -> port |> startSocketWeb refreshEvent
+    | None -> ()
 
 let private getRunnableName rootDir cfg =
     let source = rootDir </> cfg.SourceDirectory

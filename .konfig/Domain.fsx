@@ -23,16 +23,19 @@ type PostBuildTask =
     | TransformConfig of srcFile:RelativePath * transformation:RelativePath
 
 type DeployTask =
-    | FileSystemCopy of destination:AbsolutePath
+    | Zip of destination:AbsolutePath
+    | CopyTo of destination:AbsolutePath
+    | CopyToIIS of destination:AbsolutePath * appOffline:RelativePath
 
 type WatchConfig = {
     Statics : FileWatch list
     Dynamics : FileWatch list
-    NotificationChannel : NotificationChannel
+    NotificationChannel : NotificationChannel option
 }
 
 type BuildConfig = {
     OutputDirectory: RelativePath
+    SupportsParallelBuild : bool
     SharedTasks: PostBuildTask list
     DebugTasks: PostBuildTask list
     ReleaseTasks: PostBuildTask list
