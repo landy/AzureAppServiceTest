@@ -12,15 +12,12 @@ open Fake
 let private safeBuild buildF rootDir cfg = 
     let dir = rootDir </> cfg.Build.OutputDirectory
     let source = rootDir </> cfg.SourceDirectory
-
-    try
+    
+    Konfig.Utils.runWithRepeat 100 (fun _ -> 
         traceImportant <| sprintf "Starting build in %s" source
         for file in !! (source + "/*.fsproj") do
             buildF dir "Build" [file] |> Log "Build-Output:"
-    with e -> 
-        traceError <| sprintf "Build for application in directory %s failed." dir
-        traceError <| sprintf "Message: %s" e.Message
-    ()
+    )
 
 let buildDebug rootDir (cfg:ProjectConfig) = safeBuild MSBuildDebug rootDir cfg
 

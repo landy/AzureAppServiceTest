@@ -4,6 +4,7 @@ module Konfig.Runner
 #r "FakeLib.dll"
 
 #load "Domain.fsx"
+#load "Utils.fsx"
 #load "Builder.fsx"
 #load "TaskRunner.fsx"
 #load "Watcher.fsx"

@@ -12,15 +12,6 @@ let private copyBuildTo rootDir (cfg:ProjectConfig) destination =
     let src = rootDir </> cfg.Build.OutputDirectory
     CopyDir destination src (fun _ -> true)
 
-let private runWithRepeat times fn = 
-    let rec repeat timesLeft =
-        if timesLeft > 0 then
-            try fn() with _ -> repeat (timesLeft - 1)
-        else
-            traceImportant <| sprintf "Could not finish task within %i tries. Making last try now..." times
-            fn()
-    repeat times
-
 let private createAppOffline rootDir src destination = 
     let destFile = destination </> appOfflineName
     rootDir </> src |> Fake.FileHelper.CopyFile destFile
@@ -44,6 +35,6 @@ let runDeploy rootDir (cfg:ProjectConfig) = function
         !! (src + "/**/*.*") |> Zip src destination
     | CopyTo(destination) -> destination |> copyBuildTo rootDir cfg
     | CopyToIIS(destination, appOfflineSrc) ->
-        runWithRepeat 100 (fun _ -> destination |> createAppOffline rootDir appOfflineSrc)
+        Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> createAppOffline rootDir appOfflineSrc)
         destination |> copyBuildTo rootDir cfg
-        runWithRepeat 100 (fun _ -> destination |> removeAppOffline)
+        Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> removeAppOffline)
