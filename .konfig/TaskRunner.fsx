@@ -31,10 +31,12 @@ let runPostBuild rootDir (cfg:ProjectConfig) = function
 
 let runDeploy rootDir (cfg:ProjectConfig) = function
     | Zip(destination) ->
-        let src = rootDir </> cfg.Build.OutputDirectory
-        !! (src + "/**/*.*") |> Zip src destination
-    | CopyTo(destination) -> destination |> copyBuildTo rootDir cfg
+        Konfig.Utils.runWithRepeat 100 (fun _ ->
+            let src = rootDir </> cfg.Build.OutputDirectory
+            !! (src + "/**/*.*") |> Zip src destination
+        )
+    | CopyTo(destination) -> Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> copyBuildTo rootDir cfg)
     | CopyToIIS(destination, appOfflineSrc) ->
         Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> createAppOffline rootDir appOfflineSrc)
-        destination |> copyBuildTo rootDir cfg
+        Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> copyBuildTo rootDir cfg)
         Konfig.Utils.runWithRepeat 100 (fun _ -> destination |> removeAppOffline)

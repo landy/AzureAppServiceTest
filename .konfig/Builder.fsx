@@ -23,7 +23,7 @@ let buildDebug rootDir (cfg:ProjectConfig) = safeBuild MSBuildDebug rootDir cfg
 
 let buildRelease rootDir (cfg:ProjectConfig) = safeBuild MSBuildRelease rootDir cfg
 
-let clean rootDir (cfg:ProjectConfig) = rootDir </> cfg.Build.OutputDirectory |> CleanDir
+let clean rootDir (cfg:ProjectConfig) = rootDir </> cfg.Build.OutputDirectory |> (fun dir -> Konfig.Utils.runWithRepeat 100 (fun _ -> CleanDir dir))
 
 module Default =
     let private path = __SOURCE_DIRECTORY__ </> "../"
