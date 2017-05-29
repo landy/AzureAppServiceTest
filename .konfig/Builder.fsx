@@ -13,11 +13,10 @@ let private safeBuild buildF rootDir cfg =
     let dir = rootDir </> cfg.Build.OutputDirectory
     let source = rootDir </> cfg.SourceDirectory
     
-    Konfig.Utils.Default.runWithRepeat (fun _ -> 
-        traceImportant <| sprintf "Starting build in %s" source
-        for file in !! (source + "/*.fsproj") do
-            buildF dir "Build" [file] |> Log "Build-Output:"
-    )
+    traceImportant <| sprintf "Starting build in %s" source
+    for file in !! (source + "/*.fsproj") do
+        buildF dir "Build" [file] |> Log "Build-Output:"
+    
 
 let buildDebug rootDir (cfg:ProjectConfig) = safeBuild MSBuildDebug rootDir cfg
 
